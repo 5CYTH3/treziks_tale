@@ -1,6 +1,5 @@
-use std::fmt::Alignment;
 
-use bevy::{ecs::{system::{Commands, Res, Query}, query::With, entity::Entity}, asset::AssetServer, ui::{node_bundles::{NodeBundle, TextBundle, ButtonBundle}, Style, JustifyContent, AlignItems, UiRect, Val, FlexDirection, widget::Button, BorderColor}, hierarchy::{BuildChildren, DespawnRecursiveExt}, text::{Text, TextSection, TextAlignment}, render::{color::Color, render_resource::RawComputePipelineDescriptor}};
+use bevy::{ecs::{system::{Commands, Res, Query}, query::With, entity::Entity}, asset::AssetServer, ui::{node_bundles::{NodeBundle, TextBundle, ButtonBundle}, Style, JustifyContent, AlignItems, UiRect, Val, FlexDirection, BorderColor}, hierarchy::{BuildChildren, DespawnRecursiveExt}, text::{Text, TextSection, TextAlignment}, render::color::Color};
 
 use super::components::{EnterGameButton, MainMenu};
 

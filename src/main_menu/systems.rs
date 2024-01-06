@@ -1,4 +1,4 @@
-use bevy::{ecs::{system::{Commands, Query, ResMut}, query::{Changed, With}, schedule::NextState}, ui::{BackgroundColor, Interaction}, render::color::Color};
+use bevy::{ecs::{system::{Query, ResMut}, query::{Changed, With}, schedule::NextState}, ui::{BackgroundColor, Interaction}, render::color::Color};
 
 use crate::AppState;
 
@@ -8,7 +8,7 @@ pub fn enter_game_interaction(mut query: Query<(&Interaction, &mut BackgroundCol
     if let Ok((interaction, mut bg_color)) = query.get_single_mut() {
         match *interaction {
             Interaction::Pressed => app_next_state.set(AppState::InGame),
-            Interaction::Hovered => *bg_color = BackgroundColor(Color::BLUE),
+            Interaction::Hovered => *bg_color = BackgroundColor(Color::BLUE).into(),
             _ => ()
         }
     }

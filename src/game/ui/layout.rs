@@ -1,10 +1,10 @@
-use bevy::{ecs::{system::{Commands, Res, Query}, query::With, entity::Entity}, asset::AssetServer, ui::{node_bundles::{NodeBundle, ImageBundle}, Style, Val, JustifyContent, UiImage, FlexDirection}, hierarchy::BuildChildren};
+use bevy::{ecs::{system::{Commands, Res, Query}, query::With, entity::Entity}, asset::AssetServer, ui::{node_bundles::{NodeBundle, ImageBundle}, Style, Val, JustifyContent, FlexDirection, UiImage}, hierarchy::BuildChildren};
 
-use crate::game::player::{Player, health::{Health, MAX_HEALTH, HEART_COUNT}};
+use crate::game::player::{Player, health::{Health, HEART_COUNT}};
 
-use super::components::{HealthBar, heart_entity, HeartType, int_to_heart_pieces};
+use super::components::HealthBar;
 
-pub fn spawn_health_bar(mut commands: Commands, asset_server: Res<AssetServer>) {
+pub fn spawn_health_bar(mut commands: Commands) {
     commands.spawn(
         NodeBundle {
             style: Style {
@@ -32,6 +32,7 @@ pub fn spawn_health_bar(mut commands: Commands, asset_server: Res<AssetServer>) 
     });
 }
 
+/*
 pub fn update_health_bar(
     mut commands: Commands, 
     asset_server: Res<AssetServer>,
@@ -40,20 +41,37 @@ pub fn update_health_bar(
 ) {
     if let Ok(health) = health_query.get_single() {
         let (hearts, hearts_pieces) = health.to_hearts();
-        let mut health_bar_entity = health_bar_query.get_single_mut().unwrap();
-        let mut health_bar = commands.get_entity(health_bar_entity).unwrap();
+        let health_bar_entity = health_bar_query.get_single_mut().unwrap();
+
+        let mut health_bar = commands.get_entity(health_bar_entity).unwrap(); 
 
         // Clear all hearts from the bar
         health_bar.clear_children();
-        
+
         for _ in 1..hearts {
-            health_bar.add_child(heart_entity(commands, HeartType::Full, asset_server));
-        }
+            commands.get_entity(health_bar_entity).unwrap().push_children(&[
+                commands.spawn(ImageBundle {
+                    image: UiImage {
+                        texture: asset_server.load("sprites/ui/health/full.png"),
+                        ..Default::default()
+                    },                
+                    ..Default::default()
+                }).id()
+            ]);
+        };
 
         let mut pieces = false;
 
         if hearts_pieces > 0 {
-            health_bar.add_child(heart_entity(commands, int_to_heart_pieces(hearts_pieces), asset_server));
+            commands.get_entity(health_bar_entity).unwrap().push_children(&[
+                commands.spawn(ImageBundle {
+                    image: UiImage {
+                        texture: asset_server.load(format!("sprites/ui/health/{}.png", hearts_pieces)),
+                        ..Default::default()
+                    },                
+                    ..Default::default()
+                }).id()
+            ]);
             pieces = true;
         };
 
@@ -61,13 +79,30 @@ pub fn update_health_bar(
         if HEART_COUNT - hearts > 0 {
             if pieces {
                 for _ in 1..(HEART_COUNT - hearts - 1) {
-                    health_bar.add_child(heart_entity(commands, HeartType::Empty, asset_server));
+                    commands.get_entity(health_bar_entity).unwrap().push_children(&[
+                            commands.spawn(ImageBundle {
+                                image: UiImage {
+                                texture: asset_server.load("sprites/ui/health/empty.png"),
+                                ..Default::default()
+                            },                
+                            ..Default::default()
+                        }).id()
+                    ]);
                 }
             } else {
                 for _ in 1..(HEART_COUNT - hearts) {
-                    health_bar.add_child(heart_entity(commands, HeartType::Empty, asset_server));
+                    commands.get_entity(health_bar_entity).unwrap().push_children(&[
+                            commands.spawn(ImageBundle {
+                                image: UiImage {
+                                texture: asset_server.load("sprites/ui/health/empty.png"),
+                                ..Default::default()
+                            },                
+                            ..Default::default()
+                        }).id()
+                    ]);
                 }
             }
         }
     };
 }
+*/

@@ -1,4 +1,4 @@
-use bevy::{app::{Plugin, Update, App}, ecs::schedule::{OnEnter, OnExit}};
+use bevy::{app::{Plugin, App}, ecs::schedule::OnEnter};
 
 use crate::AppState;
 

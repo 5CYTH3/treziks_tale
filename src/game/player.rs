@@ -1,7 +1,7 @@
 use bevy::ecs::schedule::common_conditions::in_state;
 use bevy::ecs::schedule::{OnEnter, IntoSystemConfigs};
 use bevy::ecs::system::Res;
-use bevy::prelude::{Transform, Vec2, KeyCode, Bundle, GamepadButtonType, App, Plugin, Startup, Update};
+use bevy::prelude::{Transform, Vec2, KeyCode, Bundle, GamepadButtonType, App, Plugin, Update};
 use bevy::sprite::{SpriteBundle, Sprite};
 use bevy::{prelude::{Component, With, Commands, Query, AssetServer}, window::{Window, PrimaryWindow}};
 use leafwing_input_manager::InputManagerBundle;
@@ -26,8 +26,7 @@ impl Plugin for PlayerPlugin {
             .add_plugins(InputManagerPlugin::<PlayerActions>::default())
             .add_plugins(InventoryPlugin)
             .add_systems(Update, actions::player_movements.run_if(in_state(AppState::InGame)))
-            .add_systems(OnEnter(AppState::InGame), spawn_player)
-            .add_systems(OnEnter(AppState::InGame), health::spawn_health_bar);
+            .add_systems(OnEnter(AppState::InGame), spawn_player);
     }
 }
 
@@ -89,6 +88,6 @@ pub fn spawn_player(mut commands: Commands, query: Query<&Window, With<PrimaryWi
             },
             ..Default::default()
         },
-        health: Health(9)
+        health: Health(12)
     });
 }
